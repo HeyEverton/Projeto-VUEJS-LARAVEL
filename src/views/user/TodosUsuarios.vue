@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Todos as categorias" no-body>
+  <b-card title="Todos as usuários" no-body>
     <b-card-body>
       <div class="d-flex justify-content-between  flex-wrap">
 
@@ -7,12 +7,12 @@
           <!-- button on left -->
           <b-input-group label="" label-cols-sm="2" label-align-sm="left" label-size="lg" label-for="filterInput"
             class="mb-0">
-            <b-form-input id="filterInput" size="lg" v-model="nomeCategoria" type="search"
+            <b-form-input id="filterInput" size="lg" v-model="nomeUsuario" type="search"
               placeholder="Pesquisando por..." />
             <b-input-group-append>
               <b-button variant="outline-primary" @click="pesquisaNome">
                 <feather-icon size="16" icon="SearchIcon" />
-             
+
               </b-button>
             </b-input-group-append>
           </b-input-group>
@@ -23,9 +23,9 @@
           <b-form-group label="" label-size="md" label-align-sm="right" label-cols-sm="7" label-for="sortBySelect"
             class="mr-1 mb-md-0 align-items-center">
             <b-input-group size="lg">
-              <b-button size="md" variant="primary" :to="{ name: 'categoria-cadastro'}">
+              <b-button size="md" variant="primary" :to="{ name: 'user-cadastro'}">
                 <feather-icon size="18" icon="PlusCircleIcon" />
-                Nova categoria
+                Novo usuário
               </b-button>
             </b-input-group>
           </b-form-group>
@@ -35,7 +35,7 @@
     </b-card-body>
 
     <b-table striped hover responsive show-empty class="position-relative" :per-page="perPage"
-      :current-page="currentPage" :items="categorias" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
+      :current-page="currentPage" :items="users" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection">
 
 
@@ -43,14 +43,14 @@
 
         <div class="d-flex justify-content-center">
           <b-spinner variant="primary" label="Carregando..." />
-          <h3 class="text-center ml-1" style="color:#7367f0;">Categoria não
-            localizada</h3>
+          <h3 class="text-center ml-1" style="color:#7367f0;">Usuário não
+            localizado</h3>
         </div>
 
       </template>
 
       <template #cell(actions)="data">
-        <b-button variant="primary" class="mr-1" :to="{ name: 'categoria-edit', params: { id: data.item.id } }">
+        <b-button variant="primary" class="mr-1" :to="{ name: 'user-edit', params: { id: data.item.id } }">
           <feather-icon size="18" icon="EditIcon" />
         </b-button>
 
@@ -100,6 +100,7 @@ import {
   BFormInput,
   BInputGroupAppend,
   BButton,
+  BSpinner,
   BCardBody,
   BCard,
   BCol,
@@ -120,6 +121,7 @@ export default {
     BFormInput,
     BInputGroupAppend,
     BButton,
+    BSpinner,
     BCardBody,
   },
   data() {
@@ -138,20 +140,20 @@ export default {
         title: '',
         content: '',
       },
-      categorias: [],
+      users: [],
       fields: [
         {
           key: 'name', label: 'Nome',
         },
         {
-          key: 'description', label: 'Descrição',
+          key: 'email', label: 'Email',
         },
         {
           key: 'actions', label: 'Ações',
         },
    
       ],
-      nomeCategoria: "",
+      nomeUsuario: "",
     }
   },
   computed: {
@@ -201,7 +203,7 @@ export default {
             this.$swal({
               icon: 'success',
               title: 'Excluído',
-              text: 'A categoria foi excluída com sucesso!',
+              text: 'O usuário foi excluído com sucesso!',
               customClass: {
                 confirmButton: 'btn btn-success',
               },
@@ -210,12 +212,12 @@ export default {
         })
 
       this.$http
-        .delete('/bookshelf/categories/' + id)
+        .delete('/bookshelf/users/' + id)
         .then(response => {
           if (response.status == 200) {
 
-            this.$http.get('bookshelf/categories/')
-              .then(response => this.categorias = response.data.data)
+            this.$http.get('bookshelf/users/')
+              .then(response => this.users = response.data.data)
           } else {
             this.$swal({
               title: 'Falha ao excluir!',
@@ -235,15 +237,15 @@ export default {
     },
     pesquisaNome() {
         this.$http
-          .get('bookshelf/categories/pesquisar/nome/' + this.nomeCategoria)
-          .then(response => this.categorias = response.data.data);
+          .get('bookshelf/users/pesquisar/nome/' + this.nomeUsuario)
+          .then(response => this.users = response.data.data);
     }
 
   },
 
   created() {
-    this.$http.get('bookshelf/categories/')
-      .then(response => this.categorias = response.data.data)
+    this.$http.get('bookshelf/users/')
+      .then(response => this.users = response.data.data)
   },
 }
 </script>

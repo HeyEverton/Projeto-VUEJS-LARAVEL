@@ -131,13 +131,41 @@ const router = new VueRouter({
 
 
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login.vue'),
+      path: '/user-cadastro',
+      name: 'user-cadastro',
+      component: () => import('@/views/user/UserCadastro.vue'),
       meta: {
-        layout: 'full',
+        pageTitle: 'Cadastrar usuário',
+        breadcrumb: [
+          {
+            text: 'Usuário',
+            active: true,
+          },
+        ],
       },
     },
+
+    {
+      path: '/user-edit/:id',
+      name: 'user-edit',
+      component: () => import('@/views/user/UserEdit.vue'),
+      meta: {
+        pageTitle: 'Editar usuário',
+        breadcrumb: [
+          {
+            text: 'Usuário',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/user-list',
+      name: 'user-list',
+      component: () => import('@/views/user/TodosUsuarios.vue'),
+    },
+
     {
       path: '/error-404',
       name: 'error-404',
@@ -146,6 +174,7 @@ const router = new VueRouter({
         layout: 'full',
       },
     },
+
     {
       path: '*',
       redirect: 'error-404',
@@ -165,6 +194,7 @@ const router = new VueRouter({
         ],
       },
     },
+
     {
       path: '/categoria-list',
       name: 'categoria-list',

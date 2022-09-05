@@ -85,9 +85,36 @@ export default [
       
     ]
   },
+
+ 
+
   {
-    title: 'Configurações',
-    route: 'config',
-    icon: 'SettingsIcon',
+    header: 'Usuários',
   },
+
+  {
+    title: 'Users',
+    icon: 'UserIcon',
+    children: [
+      {
+        title: 'Cadastrar usuário',
+        route: 'user-cadastro',
+        icon: 'UserPlusIcon',
+      },
+
+      {
+        title: 'Listar usuários',
+        route: 'user-list',
+        icon: 'ListIcon',
+      },
+
+    ]
+  },
+  
+  // {
+  //   title: 'Configurações',
+  //   route: 'config',
+  //   icon: 'SettingsIcon',
+  // },
+
 ]
