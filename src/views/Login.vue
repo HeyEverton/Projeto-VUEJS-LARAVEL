@@ -30,7 +30,7 @@
           </b-card-text>
 
           <!-- form -->
-          <validation-observer ref="loginValidation">
+          <validation-observer ref="loginForm">
             <b-form class="auth-login-form mt-2" @submit.prevent>
               <!-- email -->
               <b-form-group label="E-mail" label-for="login-email">
@@ -118,7 +118,20 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton,
+   BRow,
+   BCol,
+   BLink,
+   BFormGroup,
+   BFormInput,
+   BInputGroupAppend,
+   BInputGroup,
+   BFormCheckbox,
+   BCardText,
+   BCardTitle,
+   BImg,
+   BForm,
+  BButton,
+   
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
@@ -147,7 +160,9 @@ export default {
     ValidationObserver,
     ToastificationContent,
   },
+
   mixins: [togglePasswordVisibility],
+
   data() {
     return {
       status: '',
@@ -159,6 +174,7 @@ export default {
       email,
     }
   },
+
   computed: {
     passwordToggleIcon() {
       return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
@@ -172,6 +188,7 @@ export default {
       return this.sideImg
     },
   },
+  
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate().then(success => {
@@ -195,32 +212,63 @@ export default {
         password: this.password
       }
 
-      useJwt.login({
-        email: this.email,
-        password: this.password,
-      })
-        .then((response) => {          
+//       useJwt.login({
+//         email: this.email,
+//         password: this.password,
+//       })
+//         .then((response) => {          
+//           useJwt.setToken(response.data.token)
+//           localStorage.setItem('userData', JSON.stringify(userData))
+// //          router.push({ name: 'home' })
+//           this.$router.replace('/')
+//             .then(() => {
+//               this.$toast({
+//                 component: ToastificationContent,
+//                 position: 'top-right',
+//                 props: {
+//                   title: `Welcome ${userData.email}`,
+//                   icon: 'CoffeeIcon',
+//                   variant: 'success',
+//                   text: `You have successfully logged in as Admin. Now you can start to explore!`,
+//                 },
+//               })
+//             })
+//         })
+        
+      this.$refs.loginForm.validate()
+        .then(success => {
+
+    
+      if (success) {
+
+        useJwt.login({
+          email: this.email,
+          password: this.password,
+        })
+        .then(response => {
+
           useJwt.setToken(response.data.token)
           localStorage.setItem('userData', JSON.stringify(userData))
-//          router.push({ name: 'home' })
           this.$router.replace('/')
             .then(() => {
               this.$toast({
                 component: ToastificationContent,
-                position: 'top-right',
+                position: 'top-left',
                 props: {
-                  title: `Welcome ${userData.email}`,
+                  title: `Bem-vindo ${userData.email }`,
                   icon: 'CoffeeIcon',
                   variant: 'success',
-                  text: `You have successfully logged in as Admin. Now you can start to explore!`,
+                  text: `Você fez login com sucesso. Agora você pode navegar o quanto quiser!`,
                 },
               })
             })
         })
-        .catch(() => {
-          //this.$refs.loginForm.setErrors('não foi possivel efetuar o login')
-
+        .catch(error => {
+          this.$refs.loginForm.setErrors(error.response.data.error)
         })
+      } 
+  })
+
     }
   },
 }

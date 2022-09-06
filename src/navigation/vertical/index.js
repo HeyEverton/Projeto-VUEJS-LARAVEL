@@ -111,10 +111,10 @@ export default [
     ]
   },
   
-  // {
-  //   title: 'Configurações',
-  //   route: 'config',
-  //   icon: 'SettingsIcon',
-  // },
+  {
+    title: 'Logout',
+    route: 'user-logout',
+    icon: 'LogOutIcon',
+  },
 
 ]

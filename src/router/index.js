@@ -162,6 +162,13 @@ const router = new VueRouter({
     },
 
     {
+      path: '/user-logout',
+      name: 'user-logout',
+      // component: () => import('@/views/Login.vue'),
+     
+    },
+
+    {
       path: '/user-edit/:id',
       name: 'user-edit',
       component: () => import('@/views/user/UserEdit.vue'),

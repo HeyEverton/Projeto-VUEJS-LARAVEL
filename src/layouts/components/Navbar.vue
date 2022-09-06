@@ -88,7 +88,11 @@
             icon="LogOutIcon"
             class="mr-50"
           />
-          <span>Logout</span>
+          <span @click="logoutUser">
+           
+            Logout
+           
+          </span>
         </b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
@@ -113,11 +117,29 @@ export default {
     // Navbar Components
     DarkToggler,
   },
+
   props: {
     toggleVerticalMenuActive: {
       type: Function,
       default: () => {},
     },
+  },
+
+  methods: {
+    logoutUser() {
+      this.$swal({
+        title: 'Logout efetuado com sucesso',
+        text: '',
+        icon: 'success',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+      })
+      .then(this.$http.get('bookshelf/auth/logout'))
+      .then(this.$router.replace('/user-login'));
+
+    }
   },
 }
 </script>

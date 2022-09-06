@@ -70,7 +70,8 @@
 
                             <b-form-group label="Selecione o(s) autor(es)" label-for="name" label-size="lg">
 
-                                <v-select multiple v-model="authors" label="name" :value="autores.name" :options="autores" />
+                                <v-select multiple v-model="authors" label="name" :value="autores.name"
+                                    :reduce="autores => autores.id" :options="autores" />
 
                             </b-form-group>
 
@@ -78,7 +79,9 @@
                         <b-col md="3">
 
                             <b-form-group label="Selecione as categorias" label-for="name" label-size="lg">
-                                <v-select v-model="categories" multiple label="name" :value="categorias.name" :options="categorias" />
+                                <v-select v-model="categories" multiple label="name"
+                                    :reduce="categorias => categorias.id" :value="categorias.name"
+                                    :options="categorias" />
 
                             </b-form-group>
 
@@ -218,7 +221,7 @@
                                                     </div>
                                                 </template>
 
-                                               
+
                                             </b-table>
 
                                             <b-card-body class="d-flex justify-content-start  flex-wrap pt-0">
