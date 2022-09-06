@@ -156,6 +156,7 @@ export default {
       nomeUsuario: "",
     }
   },
+  
   computed: {
     sortOptions() {
       // Create an options list from our fields
@@ -164,10 +165,12 @@ export default {
         .map(f => ({ text: f.label, value: f.key }))
     },
   },
+
   mounted() {
     // Set the initial number of items
     this.totalRows = this.categorias.length
   },
+
   methods: {
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`

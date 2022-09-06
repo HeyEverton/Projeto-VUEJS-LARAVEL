@@ -125,6 +125,7 @@ import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import router from '@/router'
+import useJwt from '@/auth/jwt/useJwt'
 
 export default {
   components: {
@@ -144,6 +145,7 @@ export default {
     VuexyLogo,
     ValidationProvider,
     ValidationObserver,
+    ToastificationContent,
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -185,15 +187,40 @@ export default {
         }
       })
     },
+
+
     loginUser() {
-      let _user = {
+      let userData = {
         email: this.email,
         password: this.password
       }
 
-      this.$http.post('/bookshelf/auth/', _user)
-      .then(router.push({ name: 'home' }))
-      
+      useJwt.login({
+        email: this.email,
+        password: this.password,
+      })
+        .then((response) => {          
+          useJwt.setToken(response.data.token)
+          localStorage.setItem('userData', JSON.stringify(userData))
+//          router.push({ name: 'home' })
+          this.$router.replace('/')
+            .then(() => {
+              this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                  title: `Welcome ${userData.email}`,
+                  icon: 'CoffeeIcon',
+                  variant: 'success',
+                  text: `You have successfully logged in as Admin. Now you can start to explore!`,
+                },
+              })
+            })
+        })
+        .catch(() => {
+          //this.$refs.loginForm.setErrors('não foi possivel efetuar o login')
+
+        })
     }
   },
 }

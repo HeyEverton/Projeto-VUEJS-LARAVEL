@@ -146,6 +146,22 @@ const router = new VueRouter({
     },
 
     {
+      path: '/user-login',
+      name: 'user-login',
+      component: () => import('@/views/Login.vue'),
+      meta: {
+        pageTitle: 'Login usuário',
+        layout: 'full',
+        breadcrumb: [
+          {
+            text: 'Usuário',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
       path: '/user-edit/:id',
       name: 'user-edit',
       component: () => import('@/views/user/UserEdit.vue'),
