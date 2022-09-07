@@ -51,7 +51,7 @@
       </template>
 
       <template #cell(actions)="data">
-        
+
         <b-button variant="primary" class="mr-1" :to="{ name: 'livro-edit', params: { id: data.item.id } }">
           <feather-icon size="18" icon="EditIcon" />
         </b-button>
@@ -181,8 +181,8 @@ export default {
     // Set the initial number of items
     this.totalRows = this.livros.length
     this.$http
-        .get('bookshelf/books/')
-        .then(response => this.livros = response.data.data)
+      .get('bookshelf/books/')
+      .then(response => this.livros = response.data.data)
   },
 
   methods: {
@@ -208,6 +208,7 @@ export default {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sim, excluir',
+        cancelButtonText: 'Cancelar',
         customClass: {
           confirmButton: 'btn btn-primary',
           cancelButton: 'btn btn-outline-danger ml-1',
@@ -215,51 +216,47 @@ export default {
         buttonsStyling: false,
       })
         .then(res => {
-          if (res.value) {
-            this.$swal({
-              icon: 'success',
-              title: 'Excluído',
-              text: 'O livro foi excluído com sucesos',
-              customClass: {
-                confirmButton: 'btn btn-success',
-              },
-            })
+          if (res.isConfirmed) {
+            this.$http
+              .delete('/bookshelf/books/' + id)
+              .then(response => {
+                if (response.status == 200) {
+                  this.$swal({
+                    icon: 'success',
+                    title: 'Excluído',
+                    text: 'O livro foi excluído com sucesos',
+                    customClass: {
+                      confirmButton: 'btn btn-success',
+                    },
+                  })
+
+                  this.$http.get('bookshelf/books/')
+                    .then(response => this.livros = response.data.data)
+                } else {
+                  this.$swal({
+                    title: 'Falha ao excluir!',
+                    text: 'Ocorreu um erro ao excluir o livro',
+                    icon: 'error',
+                    customClass: {
+                      confirmButton: 'btn btn-primary',
+                    },
+                    buttonsStyling: false,
+                  })
+                }
+              })
+
           }
         })
-
-      this.$http
-          .delete('/bookshelf/books/' + id)
-          .then(response => {
-          if (response.status == 200) {
-
-            this.$http.get('bookshelf/books/')
-              .then(response => this.editoras = response.data.data)
-          } else {
-            this.$swal({
-              title: 'Falha ao excluir!',
-              text: 'Ocorreu um erro ao excluir o livro',
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          }
-        })
-        
-
         .catch(error => {
           reject(error)
         })
     },
+
     pesquisarTitulo() {
       this.$http
-          .get('bookshelf/books/pesquisar/titulo/' + this.tituloLivro)
-          .then(response => this.livros = response.data.data);
-
+        .get('bookshelf/books/pesquisar/titulo/' + this.tituloLivro)
+        .then(response => this.livros = response.data.data);
     }
-
-
   },
 
   created() {

@@ -44,8 +44,6 @@
       </div>
     </b-card-body>
 
-
-
     <b-table striped hover responsive show-empty class="position-relative" :per-page="perPage"
       :current-page="currentPage" :items="autores" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection">
@@ -119,9 +117,7 @@ import {
   BCard,
   BCol,
   BSpinner,
-  BDropdown,
-  BDropdownDivider,
-  BDropdownItem,
+  
 
 } from 'bootstrap-vue'
 
@@ -149,9 +145,7 @@ export default {
     BCardBody,
     BSpinner,
     vSelect,
-    BDropdown,
-    BDropdownDivider,
-    BDropdownItem,
+   
 
   },
   data() {
@@ -308,6 +302,7 @@ export default {
         .get('bookshelf/authors/pesquisar/nome/' + nome)
         .then(response => this.autores = response.data.data);
     },
+
     pesquisarSobrenome(sobrenome) {
       this.$http
         .get('bookshelf/authors/pesquisar/sobrenome/' + sobrenome)

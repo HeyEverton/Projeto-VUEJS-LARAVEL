@@ -4,27 +4,33 @@
       <div class="d-flex justify-content-between  flex-wrap">
 
         <b-col lg="6" class="mb-1">
-          <!-- button on left -->
-          <b-input-group label="" label-cols-sm="2" label-align-sm="left" label-size="lg" label-for="filterInput"
-            class="mb-0">
-            <b-form-input id="filterInput" size="lg" v-model="nomeUsuario" type="search"
-              placeholder="Pesquisando por..." />
-            <b-input-group-append>
-              <b-button variant="outline-primary" @click="pesquisaNome">
-                <feather-icon size="16" icon="SearchIcon" />
+          <!-- button on right -->
+          <b-input-group label-cols-md="2" label-align-sm="left" label-size="lg">
 
+            <b-input-group-prepend>
+              <v-select placeholder="Pesquisar por" v-model="placeholder" id="dropdownPesquisar" @input="setSelected"
+                :options="selectUser" label="name" />
+            </b-input-group-prepend>
+
+            <b-form-input v-model="campoDaPesquisa" placeholder="Pesquisando por..." />
+            <b-input-group-append>
+
+              <b-button size="16" variant="outline-primary" @click="pesquisar">
+                <feather-icon icon="SearchIcon" />
+                <!-- Pesquisar -->
               </b-button>
+
             </b-input-group-append>
           </b-input-group>
-        </b-col>
 
+        </b-col>
         <!--button on right-->
         <b-col lg="6" class="mb-1">
           <b-form-group label="" label-size="md" label-align-sm="right" label-cols-sm="7" label-for="sortBySelect"
             class="mr-1 mb-md-0 align-items-center">
             <b-input-group size="lg">
               <b-button size="md" variant="primary" :to="{ name: 'user-cadastro'}">
-                <feather-icon size="18" icon="PlusCircleIcon" />
+                <feather-icon size="18" icon="UserPlusIcon" />
                 Novo usuário
               </b-button>
             </b-input-group>
@@ -54,7 +60,7 @@
           <feather-icon size="18" icon="EditIcon" />
         </b-button>
 
-        <b-button variant="danger" @click="() => deleteCategoria(data.item.id)">
+        <b-button variant="danger" @click="() => deleteUsuario(data.item.id)">
           <feather-icon size="18" icon="Trash2Icon" />
         </b-button>
       </template>
@@ -99,12 +105,21 @@ import {
   BInputGroup,
   BFormInput,
   BInputGroupAppend,
+  BInputGroupPrepend,
   BButton,
   BSpinner,
   BCardBody,
   BCard,
   BCol,
+
+
 } from 'bootstrap-vue'
+
+import vSelect from 'vue-select'
+
+import Ripple from 'vue-ripple-directive'
+
+import router from '@/router'
 
 
 export default {
@@ -120,9 +135,12 @@ export default {
     BInputGroup,
     BFormInput,
     BInputGroupAppend,
+    BInputGroupPrepend,
     BButton,
     BSpinner,
     BCardBody,
+    vSelect,
+
   },
   data() {
     return {
@@ -151,12 +169,25 @@ export default {
         {
           key: 'actions', label: 'Ações',
         },
-   
+
       ],
-      nomeUsuario: "",
+      //PESQUISA FILTROS AUTORES
+      campoDaPesquisa: "",
+      placeholder: 'Pesquisar por',
+      selectUser: [
+        'Nome',
+        'E-mail',
+      ],
+      campo: '',
     }
   },
-  
+
+
+  directives: {
+    Ripple,
+  },
+
+
   computed: {
     sortOptions() {
       // Create an options list from our fields
@@ -168,7 +199,7 @@ export default {
 
   mounted() {
     // Set the initial number of items
-    this.totalRows = this.categorias.length
+    this.totalRows = this.users.length
   },
 
   methods: {
@@ -187,14 +218,15 @@ export default {
       this.currentPage = 1
     },
 
-    deleteCategoria(id) {
+    deleteUsuario(id) {
 
       this.$swal({
         title: 'Tem certeza?',
-        text: "Você não conseguirá desfazer isso",
+        text: "Você não conseguirá desfazer isso.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sim, excluir',
+        cancelButtonText: 'Cancelar',
         customClass: {
           confirmButton: 'btn btn-primary',
           cancelButton: 'btn btn-outline-danger ml-1',
@@ -202,47 +234,65 @@ export default {
         buttonsStyling: false,
       })
         .then(res => {
-          if (res.value) {
-            this.$swal({
-              icon: 'success',
-              title: 'Excluído',
-              text: 'O usuário foi excluído com sucesso!',
-              customClass: {
-                confirmButton: 'btn btn-success',
-              },
-            })
+          if (res.isConfirmed) {
+            this.$http
+              .delete('/bookshelf/users/' + id)
+              .then(response => {
+                if (response.status == 200) {
+
+                  this.$swal({
+                    icon: 'success',
+                    title: 'Excluído',
+                    text: 'O usuário foi excluído com sucesso!',
+                    customClass: {
+                      confirmButton: 'btn btn-success',
+                    },
+                  })
+
+                  this.$http.get('bookshelf/users/')
+                    .then(response => this.users = response.data.data)
+                } else {
+                  this.$swal({
+                    title: 'Falha ao excluir!',
+                    text: 'Ocorreu um erro ao excluir a categoria',
+                    icon: 'error',
+                    customClass: {
+                      confirmButton: 'btn btn-primary',
+                    },
+                    buttonsStyling: false,
+                  })
+                }
+              })
+              .catch(error => {
+                reject(error)
+              })
           }
         })
-
-      this.$http
-        .delete('/bookshelf/users/' + id)
-        .then(response => {
-          if (response.status == 200) {
-
-            this.$http.get('bookshelf/users/')
-              .then(response => this.users = response.data.data)
-          } else {
-            this.$swal({
-              title: 'Falha ao excluir!',
-              text: 'Ocorreu um erro ao excluir a categoria',
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          }
-        })
-        .catch(error => {
-          reject(error)
-        })
-
     },
-    pesquisaNome() {
-        this.$http
-          .get('bookshelf/users/pesquisar/nome/' + this.nomeUsuario)
-          .then(response => this.users = response.data.data);
-    }
+
+    setSelected(value) {
+      this.campo = value;
+    },
+
+    pesquisar() {
+      if (this.campo == 'Nome') {
+        this.pesquisarNome(this.campoDaPesquisa)
+      } else {
+        this.pesquisarEmail(this.campoDaPesquisa)
+      }
+    },
+
+    pesquisarNome(nome) {
+      this.$http
+        .get('bookshelf/users/pesquisar/nome/', nome)
+        .then(response => this.users = response.data.data);
+    },
+
+    pesquisarEmail(email) {
+      this.$http
+        .get('bookshelf/users/pesquisar/email/', email)
+        .then(response => this.users = response.data.data);
+    },
 
   },
 
@@ -252,3 +302,7 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-select.scss';
+</style>

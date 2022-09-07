@@ -513,8 +513,6 @@ export default {
                
                 categories: this.categories,
                 authors:this.authors,
-                
-
 
             }
 

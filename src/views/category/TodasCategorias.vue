@@ -12,7 +12,7 @@
             <b-input-group-append>
               <b-button variant="outline-primary" @click="pesquisaNome">
                 <feather-icon size="16" icon="SearchIcon" />
-             
+
               </b-button>
             </b-input-group-append>
           </b-input-group>
@@ -149,7 +149,7 @@ export default {
         {
           key: 'actions', label: 'Ações',
         },
-   
+
       ],
       nomeCategoria: "",
     }
@@ -186,10 +186,11 @@ export default {
 
       this.$swal({
         title: 'Tem certeza?',
-        text: "Você não conseguirá desfazer isso",
+        text: "Você não conseguirá desfazer isso.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sim, excluir',
+        cancelButtonText: 'Cancelar',
         customClass: {
           confirmButton: 'btn btn-primary',
           cancelButton: 'btn btn-outline-danger ml-1',
@@ -197,46 +198,44 @@ export default {
         buttonsStyling: false,
       })
         .then(res => {
-          if (res.value) {
-            this.$swal({
-              icon: 'success',
-              title: 'Excluído',
-              text: 'A categoria foi excluída com sucesso!',
-              customClass: {
-                confirmButton: 'btn btn-success',
-              },
-            })
+          if (res.isConfirmed) {
+            this.$http
+              .delete('/bookshelf/categories/' + id)
+              .then(response => {
+                if (response.status == 200) {
+                  this.$swal({
+                    icon: 'success',
+                    title: 'Excluído',
+                    text: 'A categoria foi excluída com sucesso!',
+                    customClass: {
+                      confirmButton: 'btn btn-success',
+                    },
+                  })
+                  this.$http.get('bookshelf/categories/')
+                    .then(response => this.categorias = response.data.data)
+                } else {
+                  this.$swal({
+                    title: 'Falha ao excluir!',
+                    text: 'Ocorreu um erro ao excluir a categoria',
+                    icon: 'error',
+                    customClass: {
+                      confirmButton: 'btn btn-primary',
+                    },
+                    buttonsStyling: false,
+                  })
+                }
+              })
+              .catch(error => {
+                reject(error)
+              })
           }
         })
-
-      this.$http
-        .delete('/bookshelf/categories/' + id)
-        .then(response => {
-          if (response.status == 200) {
-
-            this.$http.get('bookshelf/categories/')
-              .then(response => this.categorias = response.data.data)
-          } else {
-            this.$swal({
-              title: 'Falha ao excluir!',
-              text: 'Ocorreu um erro ao excluir a categoria',
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          }
-        })
-        .catch(error => {
-          reject(error)
-        })
-
     },
+
     pesquisaNome() {
-        this.$http
-          .get('bookshelf/categories/pesquisar/nome/' + this.nomeCategoria)
-          .then(response => this.categorias = response.data.data);
+      this.$http
+        .get('bookshelf/categories/pesquisar/nome/' + this.nomeCategoria)
+        .then(response => this.categorias = response.data.data);
     }
 
   },

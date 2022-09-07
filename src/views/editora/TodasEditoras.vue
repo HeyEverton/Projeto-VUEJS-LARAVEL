@@ -228,6 +228,7 @@ export default {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sim, excluir',
+        cancelButtonText: 'Cancelar',
         customClass: {
           confirmButton: 'btn btn-primary',
           cancelButton: 'btn btn-outline-danger ml-1',
@@ -235,40 +236,41 @@ export default {
         buttonsStyling: false,
       })
         .then(res => {
-          if (res.value) {
-            this.$swal({
-              icon: 'success',
-              title: 'Excluído',
-              text: 'A editora foi excluída com sucesso',
-              customClass: {
-                confirmButton: 'btn btn-success',
-              },
-            })
+          if (res.isConfirmed) {
+            this.$http
+              .delete('/bookshelf/pub-companies/' + id)
+              .then(response => {
+                if (response.status == 200) {
+                  this.$swal({
+                    icon: 'success',
+                    title: 'Excluído',
+                    text: 'A editora foi excluída com sucesso',
+                    customClass: {
+                      confirmButton: 'btn btn-success',
+                    },
+                  })
+                  this.$http.get('bookshelf/pub-companies/')
+                    .then(response => this.editoras = response.data.data)
+                } else {
+                  this.$swal({
+                    title: 'Falha ao excluir!',
+                    text: 'Ocorreu um erro ao excluir a editora!',
+                    icon: 'error',
+                    customClass: {
+                      confirmButton: 'btn btn-primary',
+                    },
+                    buttonsStyling: false,
+                  })
+                }
+              })
+              .catch(error => {
+                reject(error)
+              })
+
           }
         })
 
-      this.$http
-        .delete('/bookshelf/pub-companies/' + id)
-        .then(response => {
-          if (response.status == 200) {
 
-            this.$http.get('bookshelf/pub-companies/')
-              .then(response => this.editoras = response.data.data)
-          } else {
-            this.$swal({
-              title: 'Falha ao excluir!',
-              text: 'Ocorreu um erro ao excluir a editora!',
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          }
-        })
-        .catch(error => {
-          reject(error)
-        })
     },
 
 

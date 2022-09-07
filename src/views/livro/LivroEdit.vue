@@ -69,19 +69,16 @@
                         <b-col md="6">
 
                             <b-form-group label="Selecione o(s) autor(es)" label-for="name" label-size="lg">
-
-                                <v-select multiple v-model="authors" label="name" :value="autores.name"
-                                    :reduce="autores => autores.id" :options="autores" />
-
+                                <v-select multiple label="name" v-model="authors" :value="autores.name"
+                                    :options="autores" :reduce="autores => autores.id" />
                             </b-form-group>
 
                         </b-col>
                         <b-col md="3">
 
                             <b-form-group label="Selecione as categorias" label-for="name" label-size="lg">
-                                <v-select v-model="categories" multiple label="name"
-                                    :reduce="categorias => categorias.id" :value="categorias.name"
-                                    :options="categorias" />
+                                <v-select multiple label="name" v-model="categories" :value="categorias.name"
+                                :options="categorias" :reduce="categorias => categorias.id" />
 
                             </b-form-group>
 
@@ -547,7 +544,6 @@ export default {
 
     //PESQUISAR CATEGORIA CLICK
     pesquisaCatPorNomeClick() {
-
         this.$http.get('bookshelf/categories/pesquisar/nome/' + this.categoriaNome)
             .then(response => this.categorias = response.data.data);
     },
@@ -564,7 +560,7 @@ export default {
         })
         router.push({ name: 'livro-list' })
     }
-},
+},  
 
 directives: {
     Ripple,
