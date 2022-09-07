@@ -224,7 +224,7 @@ export default {
                   this.$swal({
                     icon: 'success',
                     title: 'Excluído',
-                    text: 'O livro foi excluído com sucesos',
+                    text: 'O livro foi excluído com sucesso.',
                     customClass: {
                       confirmButton: 'btn btn-success',
                     },
@@ -235,7 +235,7 @@ export default {
                 } else {
                   this.$swal({
                     title: 'Falha ao excluir!',
-                    text: 'Ocorreu um erro ao excluir o livro',
+                    text: 'Ocorreu um erro ao excluir o livro.',
                     icon: 'error',
                     customClass: {
                       confirmButton: 'btn btn-primary',
