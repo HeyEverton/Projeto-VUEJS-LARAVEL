@@ -19,7 +19,7 @@ export default [
   },
   {
     title: 'Livros',
-    
+
     icon: 'BookIcon',
     children: [
       {
@@ -31,8 +31,8 @@ export default [
         title: 'Listar livros',
         route: 'livro-list',
         icon: 'ListIcon',
-      }
-    ]
+      },
+    ],
   },
   {
     title: 'Categorias',
@@ -48,7 +48,7 @@ export default [
         route: 'categoria-list',
         icon: 'ListIcon',
       },
-    ]
+    ],
   },
   {
     title: 'Editoras',
@@ -64,7 +64,7 @@ export default [
         route: 'editora-list',
         icon: 'ListIcon',
       },
-    ]
+    ],
   },
 
   {
@@ -82,11 +82,9 @@ export default [
         route: 'autor-list',
         icon: 'ListIcon',
       },
-      
-    ]
-  },
 
- 
+    ],
+  },
 
   {
     header: 'Usuários',
@@ -108,9 +106,9 @@ export default [
         icon: 'ListIcon',
       },
 
-    ]
+    ],
   },
-  
+
   {
     title: 'Logout',
     route: 'user-logout',

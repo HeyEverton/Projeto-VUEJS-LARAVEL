@@ -15,12 +15,24 @@
 
             <b-col cols="12">
 
-              <b-form-group label="Nome*" label-for="name" label-size="lg">
+              <b-form-group
+                label="Nome*"
+                label-for="name"
+                label-size="lg"
+              >
 
-                <validation-provider #default="{ errors }" rules="required|min:5" name="name">
+                <validation-provider
+                  #default="{ errors }"
+                  rules="required|min:5"
+                  name="name"
+                >
 
-                  <b-form-input v-model="name" :state="errors.length > 0 ? false:null" placeholder="Insira o seu nome"
-                    type="text" />
+                  <b-form-input
+                    v-model="name"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="Insira o seu nome"
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
 
                 </validation-provider>
@@ -30,12 +42,24 @@
 
             <b-col cols="12">
 
-              <b-form-group label="E-mail*" label-for="email" label-size="lg">
+              <b-form-group
+                label="E-mail*"
+                label-for="email"
+                label-size="lg"
+              >
 
-                <validation-provider #default="{ errors }" rules="required|email" name="email">
+                <validation-provider
+                  #default="{ errors }"
+                  rules="required|email"
+                  name="email"
+                >
 
-                  <b-form-input v-model="email" :state="errors.length > 0 ? false:null" placeholder="Insira o seu e-mail"
-                    type="email" />
+                  <b-form-input
+                    v-model="email"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="Insira o seu e-mail"
+                    type="email"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
 
                 </validation-provider>
@@ -46,12 +70,24 @@
             <!-- description -->
             <b-col cols="12">
 
-              <b-form-group label="Senha" label-for="password" label-size="lg">
+              <b-form-group
+                label="Senha"
+                label-for="password"
+                label-size="lg"
+              >
 
-                <validation-provider #default="{ errors }" rules="required|password" name="password">
+                <validation-provider
+                  #default="{ errors }"
+                  rules="required|password"
+                  name="password"
+                >
 
-                  <b-form-input v-model="password" :state="errors.length > 0 ? false:null" placeholder="Insira a sua senha"
-                    type="password" />
+                  <b-form-input
+                    v-model="password"
+                    :state="errors.length > 0 ? false:null"
+                    placeholder="Insira a sua senha"
+                    type="password"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
 
                 </validation-provider>
@@ -60,17 +96,37 @@
             </b-col>
 
             <!-- submit and reset -->
-            <b-col cols="12" class="d-flex align-items-center justify-content-center">
-              <b-button @click="createUser()" v-ripple.400="'rgba(186, 191, 199, 0.15)'" size="lg" type="submit"
-                variant="primary" class="mr-1">
+            <b-col
+              cols="12"
+              class="d-flex align-items-center justify-content-center"
+            >
+              <b-button
+                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                size="lg"
+                type="submit"
+                variant="primary"
+                class="mr-1"
+                @click="createUser()"
+              >
                 Enviar
-                <feather-icon size="18" icon="SendIcon" />
+                <feather-icon
+                  size="18"
+                  icon="SendIcon"
+                />
               </b-button>
 
-              <b-button @click="resetFormCategoria()" size="lg" v-ripple.400="'rgba(255, 255, 255, 0.15)'" type="reset"
-                variant="outline-danger">
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                size="lg"
+                type="reset"
+                variant="outline-danger"
+                @click="resetFormCategoria()"
+              >
                 Cancelar
-                <feather-icon size="18" icon="XIcon" />
+                <feather-icon
+                  size="18"
+                  icon="XIcon"
+                />
 
               </b-button>
             </b-col>
@@ -81,31 +137,30 @@
     </b-card-body>
   </b-card>
 
-
 </template>
 
 <script>
-  import {
-    required,
-    email,
-    confirmed,
-    alpha,
-    integer,
-    password,
-    min,
-    digits,
-  
-  } from '@validations'
-  
-  import {
-    ValidationProvider,
-    ValidationObserver
-  } from 'vee-validate'
-  
-  import router from '@/router'
-  
+import {
+  required,
+  email,
+  confirmed,
+  alpha,
+  integer,
+  password,
+  min,
+  digits,
+
+} from '@validations'
+
+import {
+  ValidationProvider,
+  ValidationObserver,
+} from 'vee-validate'
+
+import router from '@/router'
+
 import Ripple from 'vue-ripple-directive'
-  
+
 import {
   BCard,
   BCardText,
@@ -136,6 +191,10 @@ export default {
     ValidationObserver,
   },
 
+  directives: {
+    Ripple,
+  },
+
   data() {
     return {
       name: this.name,
@@ -145,10 +204,9 @@ export default {
   },
 
   methods: {
-    
-    createUser() {
 
-      let _user = {
+    createUser() {
+      const _user = {
         name: this.name,
         email: this.email,
         password: this.password,
@@ -166,11 +224,8 @@ export default {
               },
               buttonsStyling: false,
             })
-            .then( router.push({ name: 'login' }) )
-
-
+              .then(router.push({ name: 'login' }))
           } else {
-
             this.$swal({
               title: 'Falha ao cadastrar!',
               text: 'Ocorreu um erro ao se cadastrar',
@@ -180,11 +235,8 @@ export default {
               },
               buttonsStyling: false,
             })
-
           }
         })
-      
-
     },
     resetFormCategoria() {
       this.$swal({
@@ -197,14 +249,8 @@ export default {
         buttonsStyling: false,
       })
       router.push({ name: 'livro-list' })
-    }
-
-      
     },
 
-  
-  directives: {
-    Ripple,
   },
 
 }

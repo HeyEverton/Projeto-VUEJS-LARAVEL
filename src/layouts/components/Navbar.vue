@@ -89,9 +89,9 @@
             class="mr-50"
           />
           <span @click="logoutUser">
-           
+
             Logout
-           
+
           </span>
         </b-dropdown-item>
       </b-nav-item-dropdown>
@@ -121,12 +121,19 @@ export default {
   props: {
     toggleVerticalMenuActive: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
   },
 
   methods: {
     logoutUser() {
+      this.$http
+        .get('bookshelf/auth/logout')
+        .then(
+          localStorage.removeItem('userData'),
+          localStorage.removeItem('token'),
+        )
+        .then(this.$router.replace('/user-login'))
       this.$swal({
         title: 'Logout efetuado com sucesso',
         text: '',
@@ -136,10 +143,7 @@ export default {
         },
         buttonsStyling: false,
       })
-      .then(this.$http.get('bookshelf/auth/logout'))
-      .then(this.$router.replace('/user-login'));
-
-    }
+    },
   },
 }
 </script>

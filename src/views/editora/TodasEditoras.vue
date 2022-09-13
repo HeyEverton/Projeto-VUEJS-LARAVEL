@@ -1,23 +1,46 @@
 <template>
-  <b-card title="Todos as editoras" no-body>
+  <b-card
+    title="Todos as editoras"
+    no-body
+  >
     <b-card-body>
 
       <div class="d-flex justify-content-between  flex-wrap">
 
-        <b-col lg="6" class="mb-1">
+        <b-col
+          lg="6"
+          class="mb-1"
+        >
           <!-- button on right -->
-          <b-input-group label-cols-sm="2" label-align-sm="left" label-size="lg">
+          <b-input-group
+            label-cols-sm="2"
+            label-align-sm="left"
+            label-size="lg"
+          >
             <b-input-group-prepend>
 
-              <v-select placeholder="Pesquisar por" v-model="placeholder" id="dropdownPesquisar" @input="setSelected"
-                :options="selectEditoras" label="nome" />
+              <v-select
+                id="dropdownPesquisar"
+                v-model="placeholder"
+                placeholder="Pesquisar por"
+                :options="selectEditoras"
+                label="nome"
+                @input="setSelected"
+              />
 
             </b-input-group-prepend>
 
-            <b-form-input v-model="campoDaPesquisa" placeholder="Pesquisando por..." />
+            <b-form-input
+              v-model="campoDaPesquisa"
+              placeholder="Pesquisando por..."
+            />
             <b-input-group-append>
 
-              <b-button size="16" variant="outline-primary" @click="pesquisar">
+              <b-button
+                size="16"
+                variant="outline-primary"
+                @click="pesquisar"
+              >
                 <feather-icon icon="SearchIcon" />
 
               </b-button>
@@ -26,12 +49,28 @@
           </b-input-group>
         </b-col>
 
-        <b-col lg="6" class="mb-1">
-          <b-form-group label="" label-size="md" label-align-sm="right" label-cols-sm="7" label-for="sortBySelect"
-            class="mr-1 mb-md-0 align-items-center">
+        <b-col
+          lg="6"
+          class="mb-1"
+        >
+          <b-form-group
+            label=""
+            label-size="md"
+            label-align-sm="right"
+            label-cols-sm="7"
+            label-for="sortBySelect"
+            class="mr-1 mb-md-0 align-items-center"
+          >
             <b-input-group size="lg">
-              <b-button size="md" variant="primary" :to="{ name: 'editora-cadastro' }">
-                <feather-icon size="18" icon="PlusCircleIcon" />
+              <b-button
+                size="md"
+                variant="primary"
+                :to="{ name: 'editora-cadastro' }"
+              >
+                <feather-icon
+                  size="18"
+                  icon="PlusCircleIcon"
+                />
                 Nova editora
               </b-button>
             </b-input-group>
@@ -39,30 +78,59 @@
 
         </b-col>
 
-
       </div>
     </b-card-body>
 
-    <b-table striped hover responsive show-empty class="position-relative" :per-page="perPage"
-      :current-page="currentPage" :items="editoras" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
-      :sort-direction="sortDirection">
+    <b-table
+      striped
+      hover
+      responsive
+      show-empty
+      class="position-relative"
+      :per-page="perPage"
+      :current-page="currentPage"
+      :items="editoras"
+      :fields="fields"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      :sort-direction="sortDirection"
+    >
       <template #empty>
 
         <div class="d-flex justify-content-center">
-          <b-spinner variant="primary" label="Carregando..." />
-          <h3 class="text-center ml-1" style="color:#7367f0;">Editora não
+          <b-spinner
+            variant="primary"
+            label="Carregando..."
+          />
+          <h3
+            class="text-center ml-1"
+            style="color:#7367f0;"
+          >Editora não
             localizada</h3>
         </div>
 
       </template>
 
       <template #cell(actions)="data">
-        <b-button variant="primary" class="mr-1" :to="{ name: 'editora-edit', params: { id: data.item.id } }">
-          <feather-icon size="18" icon="EditIcon" />
+        <b-button
+          variant="primary"
+          class="mr-1"
+          :to="{ name: 'editora-edit', params: { id: data.item.id } }"
+        >
+          <feather-icon
+            size="18"
+            icon="EditIcon"
+          />
         </b-button>
 
-        <b-button variant="danger" @click="() => deleteEditora(data.item.id)">
-          <feather-icon size="18" icon="Trash2Icon" />
+        <b-button
+          variant="danger"
+          @click="() => deleteEditora(data.item.id)"
+        >
+          <feather-icon
+            size="18"
+            icon="Trash2Icon"
+          />
         </b-button>
       </template>
     </b-table>
@@ -70,20 +138,46 @@
     <b-card-body class="d-flex justify-content-between flex-wrap pt-0">
 
       <!-- page length -->
-      <b-form-group label="Por Pág" label-cols="6" label-align="left" label-size="sm" label-for="sortBySelect"
-        class="text-nowrap mb-md-0 mr-1 align-items-center">
-        <b-form-select id="perPageSelect" v-model="perPage" size="sm" inline :options="pageOptions" />
+      <b-form-group
+        label="Por Pág"
+        label-cols="6"
+        label-align="left"
+        label-size="sm"
+        label-for="sortBySelect"
+        class="text-nowrap mb-md-0 mr-1 align-items-center"
+      >
+        <b-form-select
+          id="perPageSelect"
+          v-model="perPage"
+          size="sm"
+          inline
+          :options="pageOptions"
+        />
       </b-form-group>
 
       <!-- pagination -->
       <div>
-        <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" first-number last-number
-          prev-class="prev-item" next-class="next-item" class="mb-0 align-items-center">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          first-number
+          last-number
+          prev-class="prev-item"
+          next-class="next-item"
+          class="mb-0 align-items-center"
+        >
           <template #prev-text>
-            <feather-icon icon="ChevronLeftIcon" size="18" />
+            <feather-icon
+              icon="ChevronLeftIcon"
+              size="18"
+            />
           </template>
           <template #next-text>
-            <feather-icon icon="ChevronRightIcon" size="18" />
+            <feather-icon
+              icon="ChevronRightIcon"
+              size="18"
+            />
           </template>
         </b-pagination>
       </div>
@@ -122,7 +216,6 @@ import {
 import Ripple from 'vue-ripple-directive'
 
 import vSelect from 'vue-select'
-
 
 export default {
   components: {
@@ -178,15 +271,15 @@ export default {
         },
       ],
 
-      //PESQUISA FILTROS EDITORAS
+      // PESQUISA FILTROS EDITORAS
       campoDaPesquisa: '',
-      placeholder: "Pesquisar por",
+      placeholder: 'Pesquisar por',
       selectEditoras: [
         'Nome',
         'Endereço',
         'Website',
       ],
-      nomeEditora: "",
+      nomeEditora: '',
       campo: '',
 
     }
@@ -202,6 +295,11 @@ export default {
   mounted() {
     // Set the initial number of items
     this.totalRows = this.editoras.length
+  },
+
+  created() {
+    this.$http.get('bookshelf/pub-companies/')
+      .then(response => this.editoras = response.data.data)
   },
 
   methods: {
@@ -221,10 +319,9 @@ export default {
     },
 
     deleteEditora(id) {
-
       this.$swal({
         title: 'Tem certeza?',
-        text: "Você não conseguirá desfazer isso",
+        text: 'Você não conseguirá desfazer isso',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sim, excluir',
@@ -238,7 +335,7 @@ export default {
         .then(res => {
           if (res.isConfirmed) {
             this.$http
-              .delete('/bookshelf/pub-companies/' + id)
+              .delete(`/bookshelf/pub-companies/${id}`)
               .then(response => {
                 if (response.status == 200) {
                   this.$swal({
@@ -266,16 +363,12 @@ export default {
               .catch(error => {
                 reject(error)
               })
-
           }
         })
-
-
     },
 
-
     setSelected(value) {
-      this.campo = value;
+      this.campo = value
     },
     pesquisar() {
       if (this.campo == 'Nome') {
@@ -289,32 +382,24 @@ export default {
       if (this.campo == 'Website') {
         this.pesquisarWebsite(this.campoDaPesquisa)
       }
-
     },
 
     pesquisarNome(nome) {
       this.$http
-        .get('bookshelf/pub-companies/pesquisar/nome/' + nome)
-        .then(response => this.editoras = response.data.data);
+        .get(`bookshelf/pub-companies/pesquisar/nome/${nome}`)
+        .then(response => this.editoras = response.data.data)
     },
     pesquisarEndereco(endereco) {
       this.$http
-        .get('bookshelf/pub-companies/pesquisar/endereco/' + endereco)
-        .then(response => this.editoras = response.data.data);
+        .get(`bookshelf/pub-companies/pesquisar/endereco/${endereco}`)
+        .then(response => this.editoras = response.data.data)
     },
     pesquisarWebsite(site) {
       this.$http
-        .get('bookshelf/pub-companies/pesquisar/site/' + site)
-        .then(response => this.editoras = response.data.data);
+        .get(`bookshelf/pub-companies/pesquisar/site/${site}`)
+        .then(response => this.editoras = response.data.data)
     },
 
-
-  },
-
-
-  created() {
-    this.$http.get('bookshelf/pub-companies/')
-      .then(response => this.editoras = response.data.data)
   },
 }
 </script>

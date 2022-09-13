@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import useJwt from '@/auth/jwt/useJwt'
+import axios from 'axios'
+import Guard from '@/service/middleware'
 
 Vue.use(VueRouter)
 
@@ -27,6 +30,7 @@ const router = new VueRouter({
     {
       path: '/livro-list',
       name: 'livro-list',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       component: () => import('@/views/livro/TodosLivros.vue'),
       meta: {
         pageTitle: 'Todos os livros',
@@ -66,8 +70,6 @@ const router = new VueRouter({
         ],
       },
     },
-   
-
 
     {
       path: '/perfil',
@@ -129,7 +131,6 @@ const router = new VueRouter({
       },
     },
 
-
     {
       path: '/user-cadastro',
       name: 'user-cadastro',
@@ -165,7 +166,7 @@ const router = new VueRouter({
       path: '/user-logout',
       name: 'user-logout',
       // component: () => import('@/views/Login.vue'),
-     
+
     },
 
     {
@@ -293,7 +294,6 @@ const router = new VueRouter({
       },
     },
 
-
   ],
 })
 
@@ -306,5 +306,11 @@ router.afterEach(() => {
     appLoading.style.display = 'none'
   }
 })
+// router.beforeEach((to, from, next) => {
+
+//   if (to.name !== "user-login" && to.name !== "user-cadastro" && !localStorage.getItem('UserData') && !localStorage.getItem('token')) {
+//     next({ name: 'user-login' })
+//   }
+// })
 
 export default router

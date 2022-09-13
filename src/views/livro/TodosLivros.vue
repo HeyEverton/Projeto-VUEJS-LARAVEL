@@ -1,16 +1,36 @@
 <template>
-  <b-card title="Todos os livros" no-body>
+  <b-card
+    title="Todos os livros"
+    no-body
+  >
     <b-card-body>
       <div class="d-flex justify-content-between flex-wrap">
-        <b-col lg="6" class="mb-1">
+        <b-col
+          lg="6"
+          class="mb-1"
+        >
 
           <!-- button on left -->
-          <b-input-group label="" label-cols-sm="2" label-align-sm="left" label-size="lg" label-for="filterInput"
-            class="mb-0">
-            <b-form-input id="searchInput" size="lg" v-model="tituloLivro" type="search"
-              placeholder="Pesquisando por..." />
+          <b-input-group
+            label=""
+            label-cols-sm="2"
+            label-align-sm="left"
+            label-size="lg"
+            label-for="filterInput"
+            class="mb-0"
+          >
+            <b-form-input
+              id="searchInput"
+              v-model="tituloLivro"
+              size="lg"
+              type="search"
+              placeholder="Pesquisando por..."
+            />
             <b-input-group-append>
-              <b-button variant="outline-primary" @click="pesquisarTitulo">
+              <b-button
+                variant="outline-primary"
+                @click="pesquisarTitulo"
+              >
                 Pesquisar
               </b-button>
             </b-input-group-append>
@@ -19,12 +39,28 @@
         </b-col>
 
         <!--button on right-->
-        <b-col lg="6" class="mb-1">
-          <b-form-group label="" label-size="md" label-align-sm="right" label-cols-sm="7" label-for="sortBySelect"
-            class="mr-1 mb-md-0 align-items-center">
+        <b-col
+          lg="6"
+          class="mb-1"
+        >
+          <b-form-group
+            label=""
+            label-size="md"
+            label-align-sm="right"
+            label-cols-sm="7"
+            label-for="sortBySelect"
+            class="mr-1 mb-md-0 align-items-center"
+          >
             <b-input-group size="lg">
-              <b-button size="md" variant="primary" :to="{ name: 'livro-cadastro' }">
-                <feather-icon size="18" icon="PlusCircleIcon" />
+              <b-button
+                size="md"
+                variant="primary"
+                :to="{ name: 'livro-cadastro' }"
+              >
+                <feather-icon
+                  size="18"
+                  icon="PlusCircleIcon"
+                />
                 Novo livro
               </b-button>
             </b-input-group>
@@ -35,15 +71,32 @@
       </div>
     </b-card-body>
 
-    <b-table striped hover responsive show-empty class="position-relative" :per-page="perPage"
-      :current-page="currentPage" :items="livros" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
-      :sort-direction="sortDirection">
+    <b-table
+      striped
+      hover
+      responsive
+      show-empty
+      class="position-relative"
+      :per-page="perPage"
+      :current-page="currentPage"
+      :items="livros"
+      :fields="fields"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      :sort-direction="sortDirection"
+    >
 
       <template #empty>
 
         <div class="d-flex justify-content-center mb-2 mt-2">
-          <b-spinner variant="primary" label="Carregando..." />
-          <h1 class="text-center ml-1" style="color:#7367f0;">
+          <b-spinner
+            variant="primary"
+            label="Carregando..."
+          />
+          <h1
+            class="text-center ml-1"
+            style="color:#7367f0;"
+          >
             Livro não localizado
           </h1>
         </div>
@@ -52,12 +105,25 @@
 
       <template #cell(actions)="data">
 
-        <b-button variant="primary" class="mr-1" :to="{ name: 'livro-edit', params: { id: data.item.id } }">
-          <feather-icon size="18" icon="EditIcon" />
+        <b-button
+          variant="primary"
+          class="mr-1"
+          :to="{ name: 'livro-edit', params: { id: data.item.id } }"
+        >
+          <feather-icon
+            size="18"
+            icon="EditIcon"
+          />
         </b-button>
 
-        <b-button variant="danger" @click="() => deleteLivro(data.item.id)">
-          <feather-icon size="18" icon="Trash2Icon" />
+        <b-button
+          variant="danger"
+          @click="() => deleteLivro(data.item.id)"
+        >
+          <feather-icon
+            size="18"
+            icon="Trash2Icon"
+          />
         </b-button>
 
       </template>
@@ -67,20 +133,46 @@
     <b-card-body class="d-flex justify-content-between flex-wrap pt-0">
 
       <!-- page length -->
-      <b-form-group label="Por Pág" label-cols="6" label-align="left" label-size="sm" label-for="sortBySelect"
-        class="text-nowrap mb-md-0 mr-1 align-items-center">
-        <b-form-select id="perPageSelect" v-model="perPage" size="sm" inline :options="pageOptions" />
+      <b-form-group
+        label="Por Pág"
+        label-cols="6"
+        label-align="left"
+        label-size="sm"
+        label-for="sortBySelect"
+        class="text-nowrap mb-md-0 mr-1 align-items-center"
+      >
+        <b-form-select
+          id="perPageSelect"
+          v-model="perPage"
+          size="sm"
+          inline
+          :options="pageOptions"
+        />
       </b-form-group>
 
       <!-- pagination -->
       <div>
-        <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" first-number last-number
-          prev-class="prev-item" next-class="next-item" class="mb-0 align-items-center">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          first-number
+          last-number
+          prev-class="prev-item"
+          next-class="next-item"
+          class="mb-0 align-items-center"
+        >
           <template #prev-text>
-            <feather-icon icon="ChevronLeftIcon" size="18" />
+            <feather-icon
+              icon="ChevronLeftIcon"
+              size="18"
+            />
           </template>
           <template #next-text>
-            <feather-icon icon="ChevronRightIcon" size="18" />
+            <feather-icon
+              icon="ChevronRightIcon"
+              size="18"
+            />
           </template>
         </b-pagination>
       </div>
@@ -108,7 +200,6 @@ import {
   BSpinner,
 
 } from 'bootstrap-vue'
-
 
 export default {
   components: {
@@ -155,17 +246,17 @@ export default {
           key: 'language', label: 'Idioma',
         },
         {
-          key: 'year', label: 'Data', sortable: true
+          key: 'year', label: 'Data', sortable: true,
         },
         {
-          key: 'number_pages', label: 'Qt. Págs'
+          key: 'number_pages', label: 'Qt. Págs',
         },
         {
-          key: 'actions', label: 'Ações'
+          key: 'actions', label: 'Ações',
         },
 
       ],
-      tituloLivro: "",
+      tituloLivro: '',
     }
   },
 
@@ -183,6 +274,11 @@ export default {
     this.$http
       .get('bookshelf/books/')
       .then(response => this.livros = response.data.data)
+  },
+
+  created() {
+    // this.$http.get('bookshelf/books/')
+    //   .then(response => this.livros = response.data)
   },
 
   methods: {
@@ -204,7 +300,7 @@ export default {
     deleteLivro(id) {
       this.$swal({
         title: 'Tem certeza?',
-        text: "Você não conseguirá desfazer isso",
+        text: 'Você não conseguirá desfazer isso',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sim, excluir',
@@ -218,7 +314,7 @@ export default {
         .then(res => {
           if (res.isConfirmed) {
             this.$http
-              .delete('/bookshelf/books/' + id)
+              .delete(`/bookshelf/books/${id}`)
               .then(response => {
                 if (response.status == 200) {
                   this.$swal({
@@ -244,7 +340,6 @@ export default {
                   })
                 }
               })
-
           }
         })
         .catch(error => {
@@ -254,14 +349,9 @@ export default {
 
     pesquisarTitulo() {
       this.$http
-        .get('bookshelf/books/pesquisar/titulo/' + this.tituloLivro)
-        .then(response => this.livros = response.data.data);
-    }
-  },
-
-  created() {
-    // this.$http.get('bookshelf/books/')
-    //   .then(response => this.livros = response.data)
+        .get(`bookshelf/books/pesquisar/titulo/${this.tituloLivro}`)
+        .then(response => this.livros = response.data.data)
+    },
   },
 }
 </script>
