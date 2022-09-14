@@ -32,6 +32,7 @@
             <b-form-input
               v-model="campoDaPesquisa"
               placeholder="Pesquisando por..."
+              @input="handleInput"
             />
             <b-input-group-append>
 
@@ -211,6 +212,8 @@ import {
 
 import router from '@/router'
 
+import { debounce } from 'lodash';
+
 import Ripple from 'vue-ripple-directive'
 
 import vSelect from 'vue-select'
@@ -382,6 +385,13 @@ export default {
         this.pesquisarSobrenome(this.campoDaPesquisa)
       }
     },
+    handleInput: debounce(function () {
+      if (this.campo == 'Nome') {
+        this.pesquisarNome(this.campoDaPesquisa)
+      } else {
+        this.pesquisarSobrenome(this.campoDaPesquisa)
+      }
+    }, 300),
 
     pesquisarNome(nome) {
       this.$http

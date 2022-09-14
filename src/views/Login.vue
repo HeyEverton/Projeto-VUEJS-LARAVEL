@@ -207,7 +207,7 @@ import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import router from '@/router'
+
 import useJwt from '@/auth/jwt/useJwt'
 
 export default {
@@ -260,20 +260,20 @@ export default {
   },
 
   methods: {
-    validationForm() {
-      this.$refs.loginValidation.validate().then(success => {
-        if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
-          })
-        }
-      })
-    },
+    // validationForm() {
+    //   this.$refs.loginValidation.validate().then(success => {
+    //     if (success) {
+    //       this.$toast({
+    //         component: ToastificationContent,
+    //         props: {
+    //           title: 'Form Submitted',
+    //           icon: 'EditIcon',
+    //           variant: 'success',
+    //         },
+    //       })
+    //     }
+    //   })
+    // },
 
     loginUser() {
       const userData = {
@@ -289,15 +289,19 @@ export default {
               password: this.password,
             })
               .then(response => {
-                useJwt.setToken(response.data.token)
-                localStorage.setItem('userData', JSON.stringify(userData))
+                const token = `${response.data.access_token}`
+                useJwt.setToken(token)
+                localStorage.setItem('userData', JSON.stringify(userData.email))
+
+                this.$store.commit('user/STORE_USER', response.data.data)
+
                 this.$router.replace('/')
                   .then(() => {
                     this.$toast({
                       component: ToastificationContent,
                       position: 'top-left',
                       props: {
-                        title: `Bem-vindo ${userData.email}`,
+                        title: `Bem-vindo ${response.data.data.name}`,
                         icon: 'CoffeeIcon',
                         variant: 'success',
                         text: 'Você fez login com sucesso. Agora você pode navegar o quanto quiser!',

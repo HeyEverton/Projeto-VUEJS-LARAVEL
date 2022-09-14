@@ -30,9 +30,9 @@
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">
-              John Doe
+              {{user.name}}
             </p>
-            <span class="user-status">Admin</span>
+            <span class="user-status">Administrador</span>
           </div>
           <b-avatar
             size="40"
@@ -50,7 +50,11 @@
             icon="UserIcon"
             class="mr-50"
           />
-          <span>Profile</span>
+          <span>
+            <router-link to="user-perfil">
+              Perfil
+            </router-link>
+          </span>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
@@ -65,10 +69,14 @@
         <b-dropdown-item link-class="d-flex align-items-center">
           <feather-icon
             size="16"
-            icon="CheckSquareIcon"
+            icon="BookOpenIcon"
             class="mr-50"
           />
-          <span>Task</span>
+          <span>
+           <router-link to="livro-list">
+             Livros
+           </router-link>
+          </span>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
@@ -101,8 +109,16 @@
 
 <script>
 import {
-  BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
+  BLink,
+  BNavbarNav,
+  BNavItemDropdown,
+  BDropdownItem,
+  BDropdownDivider,
+  BAvatar,
 } from 'bootstrap-vue'
+
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
 
 export default {
@@ -113,9 +129,16 @@ export default {
     BDropdownItem,
     BDropdownDivider,
     BAvatar,
-
+    ToastificationContent,
     // Navbar Components
     DarkToggler,
+  },
+
+  data() {
+    return {
+      user: {}
+    }
+    
   },
 
   props: {
@@ -125,24 +148,43 @@ export default {
     },
   },
 
+  mounted () {
+    this.$http.get('bookshelf/auth/me')
+    .then(response => {
+      this.user = response.data.data
+      });
+  },
+
   methods: {
     logoutUser() {
       this.$http
-        .get('bookshelf/auth/logout')
+        .get('http://127.0.0.1:8000/api/bookshelf/auth/logout')
         .then(
           localStorage.removeItem('userData'),
           localStorage.removeItem('token'),
         )
         .then(this.$router.replace('/user-login'))
-      this.$swal({
-        title: 'Logout efetuado com sucesso',
-        text: '',
-        icon: 'success',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-        },
-        buttonsStyling: false,
-      })
+        .then(
+          this.$toast({
+            component: ToastificationContent,
+            position: 'top-right',
+            props: {
+              title: `Até logo! ${user.name}`,
+              icon: 'LogOutIcon',
+              variant: 'success',
+              text: 'Deslogado com sucesso!',
+            },
+          })
+        )
+      // this.$swal({
+      //   title: 'Logout efetuado com sucesso',
+      //   text: '',
+      //   icon: 'success',
+      //   customClass: {
+      //     confirmButton: 'btn btn-primary',
+      //   },
+      //   buttonsStyling: false,
+      // })
     },
   },
 }

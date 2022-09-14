@@ -1,48 +1,41 @@
-import Cookie from '@/service/cookie'
-import axios from 'axios'
 import store from '@/store'
-import useJwt from '@/auth/jwt/useJwt'
+import axiosIns from '@/libs/axios'
+
 
 export default {
 
-  // SE ->NAO<- ESTA AUTENTICADO
-  redirectIfNotAuthenticated(to, from, next) {
-    // let valor = useJwt.isUserLoggedIn;
-    // console.log('-------------------------')
-    // console.log(valor)
-    // alert('oi')
+    // SE ->NAO<- ESTA AUTENTICADO
+    redirectIfNotAuthenticated(to, from, next) {
+        const token = localStorage.getItem('token')
 
-    const token = localStorage.getItem('userData')
+        if (!token) {
+            next({ name: 'user-login' })
+        }
 
-    if (!token) {
-      next({ name: 'user-login' })
+        axiosIns.get('bookshelf/auth/me')
+            .then((response) => {
+                if (!store?.state?.user?.id) {
+                    store.commit('user/STORE_USER', response.data.data)
+                }
+            })
+            .catch(() => {
+                localStorage.removeItem('userData')
+                localStorage.removeItem('token')
+                //this.$router.replace('/user-login');
+                next({ name: 'user-login' })
+                return 
+            })
+            
+            next()
+    },
+
+
+    redirectIfAuthenticated(to, from, next) {
+        const token = localStorage.getItem('token')
+        let n
+        if (token) {
+            n = { name: 'home' }
+        }
+        next(n)
     }
-
-    // if (to.name !== "user-login" && to.name !== "user-cadastro" && !localStorage.getItem('UserData') && !localStorage.getItem('token')) {
-    //     next({ name: 'user-login' })
-    // }
-    // // else {
-    // //     next({ name: 'livro-list' })
-    // // }
-    // this.$http.get('bookshelf/auth/me')
-    // .then((response) => {
-    //     console.log(response)
-    // })
-    // axios.get('http://127.0.0.1:8000/api/bookshelf/auth/me')
-
-    // AINDA TEM QUE CHECAR SE O TOKEN ESTA VALIDO
-    // next({ name: 'home' })
-  },
-
-  // SE ESTA AUTENTICADO
-  // redirectIfAuthenticated(to, from, next) {
-  //     const token = localStorage.getToken()
-  //     let n
-
-  //     if (token) {
-  //         n = { name: 'home' }
-  //     }
-
-  //     next(n)
-  // },
 }

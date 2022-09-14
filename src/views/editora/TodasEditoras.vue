@@ -33,6 +33,7 @@
             <b-form-input
               v-model="campoDaPesquisa"
               placeholder="Pesquisando por..."
+               @input="handleInput"
             />
             <b-input-group-append>
 
@@ -182,17 +183,14 @@
         </b-pagination>
       </div>
     </b-card-body>
-
-    <template #code>
-      {{ codeKitchenSink }}
-    </template>
   </b-card>
 </template>
 
+
 <script>
 
-import {
-  BTable,
+  import {
+    BTable,
   BAvatar,
   BBadge,
   BFormGroup,
@@ -210,8 +208,10 @@ import {
   BDropdown,
   BDropdownDivider,
   BDropdownItem,
-
+  
 } from 'bootstrap-vue'
+
+// import { debounce } from 'lodash';
 
 import Ripple from 'vue-ripple-directive'
 
@@ -383,6 +383,18 @@ export default {
         this.pesquisarWebsite(this.campoDaPesquisa)
       }
     },
+
+    // handleInput: debounce(function () {
+    //   if (this.campo == 'Nome') {
+    //     this.pesquisarNome(this.campoDaPesquisa)
+    //   }
+    //   if (this.campo == 'Endereço') {
+    //     this.pesquisarEndereco(this.campoDaPesquisa)
+    //   }
+    //   if (this.campo == 'Website') {
+    //     this.pesquisarWebsite(this.campoDaPesquisa)
+    //   }
+    // }, 300),
 
     pesquisarNome(nome) {
       this.$http

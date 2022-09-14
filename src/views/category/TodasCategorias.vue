@@ -22,6 +22,7 @@
             <b-form-input
               id="filterInput"
               v-model="nomeCategoria"
+              @input="handleInput"
               size="lg"
               type="search"
               placeholder="Pesquisando por..."
@@ -180,6 +181,8 @@
 </template>
 
 <script>
+  
+import { debounce } from 'lodash';
 
 import {
   BTable,
@@ -192,12 +195,14 @@ import {
   BFormInput,
   BInputGroupAppend,
   BButton,
+  BSpinner,
   BCardBody,
   BCard,
   BCol,
 } from 'bootstrap-vue'
 
 export default {
+  
   components: {
     BCard,
     BCol,
@@ -209,10 +214,12 @@ export default {
     BPagination,
     BInputGroup,
     BFormInput,
+    BSpinner,
     BInputGroupAppend,
     BButton,
     BCardBody,
   },
+
   data() {
     return {
       perPage: 5,
@@ -245,6 +252,7 @@ export default {
       nomeCategoria: '',
     }
   },
+
   computed: {
     sortOptions() {
       // Create an options list from our fields
@@ -253,6 +261,7 @@ export default {
         .map(f => ({ text: f.label, value: f.key }))
     },
   },
+
   mounted() {
     // Set the initial number of items
     this.totalRows = this.categorias.length
@@ -262,16 +271,20 @@ export default {
     this.$http.get('bookshelf/categories/')
       .then(response => this.categorias = response.data.data)
   },
+
   methods: {
+
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`
       this.infoModal.content = JSON.stringify(item, null, 2)
       this.$root.$emit('bv::show::modal', this.infoModal.id, button)
     },
+
     resetInfoModal() {
       this.infoModal.title = ''
       this.infoModal.content = ''
     },
+
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length
@@ -326,6 +339,10 @@ export default {
           }
         })
     },
+
+    handleInput: debounce(function () {
+      this.pesquisaNome()
+    }, 300),
 
     pesquisaNome() {
       this.$http

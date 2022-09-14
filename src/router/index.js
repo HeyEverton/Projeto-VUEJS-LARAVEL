@@ -15,6 +15,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'home',
       component: () => import('@/views/Home.vue'),
       meta: {
@@ -29,8 +30,8 @@ const router = new VueRouter({
     },
     {
       path: '/livro-list',
-      name: 'livro-list',
       beforeEnter: Guard.redirectIfNotAuthenticated,
+      name: 'livro-list',
       component: () => import('@/views/livro/TodosLivros.vue'),
       meta: {
         pageTitle: 'Todos os livros',
@@ -44,6 +45,7 @@ const router = new VueRouter({
     },
     {
       path: '/livro-cadastro',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'livro-cadastro',
       component: () => import('@/views/livro/LivroCadastro.vue'),
       meta: {
@@ -58,6 +60,7 @@ const router = new VueRouter({
     },
     {
       path: '/livro-edit/:id',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'livro-edit',
       component: () => import('@/views/livro/LivroEdit.vue'),
       meta: {
@@ -73,6 +76,7 @@ const router = new VueRouter({
 
     {
       path: '/perfil',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'perfil',
       component: () => import('@/views/perfil/Perfil.vue'),
       meta: {
@@ -88,6 +92,7 @@ const router = new VueRouter({
 
     {
       path: '/autor-cadastro',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'autor-cadastro',
       component: () => import('@/views/autor/AutorCadastro.vue'),
       meta: {
@@ -103,6 +108,7 @@ const router = new VueRouter({
 
     {
       path: '/autor-list',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'autor-list',
       component: () => import('@/views/autor/TodosAutores.vue'),
       meta: {
@@ -118,6 +124,7 @@ const router = new VueRouter({
 
     {
       path: '/autor-edit/:id',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'autor-edit',
       component: () => import('@/views/autor/AutorEdit.vue'),
       meta: {
@@ -133,6 +140,7 @@ const router = new VueRouter({
 
     {
       path: '/user-cadastro',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'user-cadastro',
       component: () => import('@/views/user/UserCadastro.vue'),
       meta: {
@@ -148,6 +156,7 @@ const router = new VueRouter({
 
     {
       path: '/user-login',
+      beforeEnter: Guard.redirectIfAuthenticated,
       name: 'user-login',
       component: () => import('@/views/Login.vue'),
       meta: {
@@ -186,6 +195,7 @@ const router = new VueRouter({
 
     {
       path: '/user-list',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'user-list',
       component: () => import('@/views/user/TodosUsuarios.vue'),
     },
@@ -206,6 +216,7 @@ const router = new VueRouter({
 
     {
       path: '/categoria-cadastro',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'categoria-cadastro',
       component: () => import('@/views/category/CategoriaCadastro.vue'),
       meta: {
@@ -221,6 +232,7 @@ const router = new VueRouter({
 
     {
       path: '/categoria-list',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'categoria-list',
       component: () => import('@/views/category/TodasCategorias.vue'),
       meta: {
@@ -251,6 +263,7 @@ const router = new VueRouter({
 
     {
       path: '/editora-cadastro',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'editora-cadastro',
       component: () => import('@/views/editora/EditoraCadastro.vue'),
       meta: {
@@ -266,6 +279,7 @@ const router = new VueRouter({
 
     {
       path: '/editora-list',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'editora-list',
       component: () => import('@/views/editora/TodasEditoras.vue'),
       meta: {
@@ -281,6 +295,7 @@ const router = new VueRouter({
 
     {
       path: '/editora/edit/:id',
+      beforeEnter: Guard.redirectIfNotAuthenticated,
       name: 'editora-edit',
       component: () => import('@/views/editora/EditoraEdit.vue'),
       meta: {
@@ -293,7 +308,6 @@ const router = new VueRouter({
         ],
       },
     },
-
   ],
 })
 

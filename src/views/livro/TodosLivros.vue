@@ -25,6 +25,7 @@
               size="lg"
               type="search"
               placeholder="Pesquisando por..."
+              @input="handleInput"
             />
             <b-input-group-append>
               <b-button
@@ -201,6 +202,8 @@ import {
 
 } from 'bootstrap-vue'
 
+import { debounce } from 'lodash';
+
 export default {
   components: {
     BCard,
@@ -218,6 +221,7 @@ export default {
     BCardBody,
     BSpinner,
   },
+  
   data() {
     return {
       perPage: 5,
@@ -261,6 +265,7 @@ export default {
   },
 
   computed: {
+
     sortOptions() {
       // Create an options list from our fields
       return this.fields
@@ -268,17 +273,14 @@ export default {
         .map(f => ({ text: f.label, value: f.key }))
     },
   },
+
   mounted() {
     // Set the initial number of items
     this.totalRows = this.livros.length
-    this.$http
-      .get('bookshelf/books/')
-      .then(response => this.livros = response.data.data)
-  },
-
-  created() {
-    // this.$http.get('bookshelf/books/')
-    //   .then(response => this.livros = response.data)
+    this.$http 
+    .get('bookshelf/books/')
+    .then(response => this.livros = response.data.data)
+   
   },
 
   methods: {
@@ -287,10 +289,12 @@ export default {
       this.infoModal.content = JSON.stringify(item, null, 2)
       this.$root.$emit('bv::show::modal', this.infoModal.id, button)
     },
+    
     resetInfoModal() {
       this.infoModal.title = ''
       this.infoModal.content = ''
     },
+
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length
@@ -346,6 +350,10 @@ export default {
           reject(error)
         })
     },
+
+    handleInput: debounce(function () {
+      this.pesquisarTitulo()
+    }, 300),
 
     pesquisarTitulo() {
       this.$http
