@@ -100,7 +100,7 @@
         >
           Cancelar
         </b-button>
-      </b-col>b-col>
+      </b-col>
     </b-row>
   </b-form>
 </template>

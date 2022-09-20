@@ -704,6 +704,15 @@ export default {
     },
 
     editLivro() {
+      // var autores = this.authors.id
+      const ids_categoria = this.categories.map(categoria => categoria.id)
+      const ids_autores = this.authors.map(autor => autor.id)
+
+      console.log('CATEGORIAS')
+      console.log(ids_categoria)
+      console.log('-----------------------------')
+      console.log('AUTORES')
+      console.log(ids_autores)
       const _book = {
         title: this.title,
         description: this.description,
@@ -712,8 +721,10 @@ export default {
         number_pages: this.number_pages,
         publishing_company_id: this.publishing_company_id,
 
-        categories: this.categories,
-        authors: this.authors,
+        categories: ids_categoria,
+        authors: ids_autores,
+        // categories: [18],
+        // authors: [41,44],
       }
 
       this.$http

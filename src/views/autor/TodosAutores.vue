@@ -327,12 +327,14 @@ export default {
     },
 
     deleteAutor(id) {
+
       this.$swal({
         title: 'Tem certeza?',
-        text: 'Você não conseguirá desfazer isso',
+        text: 'Você não conseguirá desfazer isso.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sim, excluir',
+        cancelButtonText: 'Cancelar',
         customClass: {
           confirmButton: 'btn btn-primary',
           cancelButton: 'btn btn-outline-danger ml-1',
@@ -340,37 +342,37 @@ export default {
         buttonsStyling: false,
       })
         .then(res => {
-          if (res.value) {
-            this.$swal({
-              icon: 'success',
-              title: 'Excluído',
-              text: 'O autor foi excluído com sucesso',
-              customClass: {
-                confirmButton: 'btn btn-success',
-              },
-            })
+          if (res.isConfirmed) {
+            this.$http
+              .delete(`/bookshelf/authors/${id}`)
+              .then(response => {
+                if (response.status == 200) {
+                  this.$swal({
+                    icon: 'success',
+                    title: 'Excluído',
+                    text: 'O autor foi excluído com sucesso!',
+                    customClass: {
+                      confirmButton: 'btn btn-success',
+                    },
+                  })
+                  this.$http.get('bookshelf/authors/')
+                    .then(response => this.autores = response.data.data)
+                } else {
+                  this.$swal({
+                    title: 'Falha ao excluir!',
+                    text: 'Ocorreu um erro ao excluir o autor',
+                    icon: 'error',
+                    customClass: {
+                      confirmButton: 'btn btn-primary',
+                    },
+                    buttonsStyling: false,
+                  })
+                }
+              })
+              .catch(error => {
+                reject(error)
+              })
           }
-        })
-      this.$http
-        .delete(`/bookshelf/authors/${id}`)
-        .then(response => {
-          if (response.status == 200) {
-            this.$http.get('bookshelf/authors/')
-              .then(response => this.autores = response.data.data)
-          } else {
-            this.$swal({
-              title: 'Falha ao excluir!',
-              text: 'Ocorreu um erro ao excluir o autor',
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-              },
-              buttonsStyling: false,
-            })
-          }
-        })
-        .catch(error => {
-          reject(error)
         })
     },
 
