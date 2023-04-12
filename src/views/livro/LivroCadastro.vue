@@ -10,30 +10,16 @@
     <b-card-body>
       <validation-observer ref="simpleRules">
 
-        <b-form
-          id="form"
-          @submit.prevent
-        >
+        <b-form id="form" @submit.prevent>
           <b-row>
             <b-col md="6">
-              <b-form-group
-                label="Título*"
-                label-for="title"
-                label-size="lg"
-              >
+              <b-form-group label="Título*" label-for="title" label-size="lg">
 
-                <validation-provider
-                  #default="{ errors }"
-                  rules="required|min:3"
-                  name="title"
-                >
+                <validation-provider #default="{ errors }" rules="required|min:3" name="title">
 
                   <span class="text-muted fs-2">Obrigatório</span>
-                  <b-form-input
-                    v-model="title"
-                    :state="errors.length > 0 ? false : null"
-                    placeholder="Insira o título do livro"
-                  />
+                  <b-form-input v-model="title" :state="errors.length > 0 ? false : null"
+                    placeholder="Insira o título do livro" />
                   <small class="text-danger">{{ errors[0] }}</small>
 
                 </validation-provider>
@@ -42,37 +28,19 @@
 
             <b-col md="6">
 
-              <b-form-group
-                label="Descrição*"
-                label-for="description"
-                label-size="lg"
-              >
+              <b-form-group label="Descrição*" label-for="description" label-size="lg">
                 <span class="text-muted fs-2 ">Obrigatório</span>
-                <b-form-textarea
-                  id="description"
-                  v-model="description"
-                />
+                <b-form-textarea id="description" v-model="description" />
               </b-form-group>
             </b-col>
             <b-col md="6">
-              <b-form-group
-                label="Idioma*"
-                label-for="language"
-                label-size="lg"
-              >
+              <b-form-group label="Idioma*" label-for="language" label-size="lg">
 
-                <validation-provider
-                  #default="{ errors }"
-                  rules="required"
-                  name="language"
-                >
+                <validation-provider #default="{ errors }" rules="required" name="language">
 
                   <span class="text-muted fs-2">Obrigatório</span>
-                  <b-form-input
-                    v-model="language"
-                    :state="errors.length > 0 ? false : null"
-                    placeholder="Insira o idioma do livro"
-                  />
+                  <b-form-input v-model="language" :state="errors.length > 0 ? false : null"
+                    placeholder="Insira o idioma do livro" />
                   <small class="text-danger">{{ errors[0] }}</small>
 
                 </validation-provider>
@@ -80,89 +48,42 @@
             </b-col>
 
             <b-col md="3">
-              <b-form-group
-                label="Nº de páginas"
-                label-for="number_pages"
-                label-size="lg"
-              >
+              <b-form-group label="Nº de páginas" label-for="number_pages" label-size="lg">
                 <span class="text-muted fs-2 ">Opcional</span>
-                <b-form-input
-                  id="number_pages"
-                  v-model="number_pages"
-                  type="number"
-                  placeholder=""
-                />
+                <b-form-input id="number_pages" v-model="number_pages" type="number" placeholder="" />
               </b-form-group>
             </b-col>
             <b-col md="3">
-              <b-form-group
-                label="Ano"
-                label-for="year"
-                label-size="lg"
-              >
+              <b-form-group label="Ano" label-for="year" label-size="lg">
                 <span class="text-muted fs-2 ">Opcional</span>
-                <b-form-input
-                  id="year"
-                  v-model="year"
-                  type="number"
-                  placeholder=""
-                />
+                <b-form-input id="year" v-model="year" type="number" placeholder="" />
               </b-form-group>
             </b-col>
             <b-col md="3">
-              <b-form-group
-                label="Selecione a editora*"
-                label-for="companies"
-                label-size="lg"
-              >
+              <b-form-group label="Selecione a editora*" label-for="companies" label-size="lg">
                 <span class="text-muted fs-2 ">Obrigatório</span>
-                <v-select
-                  v-model="publishing_company_id"
-                  :value="editoras.name"
-                  :reduce="editoras => editoras.id"
-                  :options="editoras"
-                  label="name"
-                />
+                <v-select v-model="publishing_company_id" :value="editoras.name" :reduce="editoras => editoras.id"
+                  :options="editoras" label="name" />
 
               </b-form-group>
             </b-col>
 
             <b-col md="6">
 
-              <b-form-group
-                label="Selecione o(s) autor(es)"
-                label-for="authors"
-                label-size="lg"
-              >
+              <b-form-group label="Selecione o(s) autor(es)" label-for="authors" label-size="lg">
                 <span class="text-muted fs-2 ">Obrigatório</span>
-                <v-select
-                  v-model="authors"
-                  multiple
-                  label="name"
-                  :value="autores.name"
-                  :options="autores"
-                  :reduce="autores => autores.id"
-                />
+                <v-select v-model="authors" multiple label="name" :value="autores.name" :options="autores"
+                  :reduce="autores => autores.id" />
 
               </b-form-group>
 
             </b-col>
             <b-col md="3">
 
-              <b-form-group
-                label="Selecione as categorias"
-                label-for="categories"
-                label-size="lg"
-              >
+              <b-form-group label="Selecione as categorias" label-for="categories" label-size="lg">
                 <span class="text-muted fs-2 ">Obrigatório</span>
-                <v-select
-                  v-model="categories"
-                  multiple
-                  label="name"
-                  :value="categorias.name"
-                  :options="categorias"
-                  :reduce="categorias => categorias.id"
-                />
+                <v-select v-model="categories" multiple label="name" :value="categorias.name" :options="categorias"
+                  :reduce="categorias => categorias.id" />
 
               </b-form-group>
 
@@ -185,34 +106,14 @@
 
                   <div class="d-flex justify-content-start mt-2 flex-wrap">
 
-                    <b-col
-                      lg="12"
-                      class="mb-3"
-                    >
+                    <b-col lg="12" class="mb-3">
                       <!-- button on right -->
-                      <b-input-group
-                        label=""
-                        label-cols-sm="2"
-                        label-align-sm="right"
-                        label-size="lg"
-                        label-for="filterInput"
-                        class="mb-0"
-                      >
-                        <b-form-input
-                          v-model="autorNome"
-                          size="lg"
-                          type="search"
-                          placeholder="Pesquise o autor..."
-                        />
+                      <b-input-group label="" label-cols-sm="2" label-align-sm="right" label-size="lg"
+                        label-for="filterInput" class="mb-0">
+                        <b-form-input v-model="autorNome" size="lg" type="search" placeholder="Pesquise o autor..." />
                         <b-input-group-append>
-                          <b-button
-                            variant="outline-primary"
-                            @click="pesquisaAutPorNomeClick"
-                          >
-                            <feather-icon
-                              size="16"
-                              icon="SearchIcon"
-                            />
+                          <b-button variant="outline-primary" @click="pesquisaAutPorNomeClick">
+                            <feather-icon size="16" icon="SearchIcon" />
                             Pesquisar
                           </b-button>
                         </b-input-group-append>
@@ -222,36 +123,16 @@
                   </div>
 
                   <div class="d-flex justify-content-between">
-                    <b-col
-                      lg="12"
-                      class="mb-1"
-                    >
-                      <b-table
-                        striped
-                        hover
-                        responsive
-                        show-empty
-                        class="position-relative"
-                        :per-page="perPage"
-                        :current-page="currentPage"
-                        :items="autores"
-                        :fields="fieldsAutores"
-                        :sort-by.sync="sortBy"
-                        :sort-desc.sync="sortDesc"
-                        :sort-direction="sortDirection"
-                      >
+                    <b-col lg="12" class="mb-1">
+                      <b-table striped hover responsive show-empty class="position-relative" :per-page="perPage"
+                        :current-page="currentPage" :items="autores" :fields="fieldsAutores" :sort-by.sync="sortBy"
+                        :sort-desc.sync="sortDesc" :sort-direction="sortDirection">
 
                         <template #empty>
 
                           <div class="d-flex justify-content-center">
-                            <b-spinner
-                              variant="primary"
-                              label="Carregando..."
-                            />
-                            <h3
-                              class="text-center ml-1"
-                              style="color:#7367f0;"
-                            >Autor não
+                            <b-spinner variant="primary" label="Carregando..." />
+                            <h3 class="text-center ml-1" style="color:#7367f0;">Autor não
                               localizado</h3>
                           </div>
 
@@ -263,47 +144,23 @@
 
                         <!-- page length -->
 
-                        <b-form-group
-                          label="Por Pág"
-                          label-cols="6"
-                          label-align="left"
-                          label-size="sm"
+                        <b-form-group label="Por Pág" label-cols="6" label-align="left" label-size="sm"
                           label-for="sortBySelect"
-                          class="text-nowrap mb-md-3 mr-5 align-items-center justify-content-start"
-                        >
-                          <b-form-select
-                            id="perPageSelect"
-                            v-model="perPage"
-                            size="sm"
-                            inline
-                            :options="pageOptions"
-                          />
+                          class="text-nowrap mb-md-3 mr-5 align-items-center justify-content-start">
+                          <b-form-select id="perPageSelect" v-model="perPage" size="sm" inline :options="pageOptions" />
                         </b-form-group>
 
                         <!-- pagination -->
                         <div>
-                          <b-pagination
-                            v-model="currentPage"
-                            :total-rows="totalRows"
-                            :per-page="perPage"
-                            first-number
-                            last-number
-                            prev-class="prev-item"
-                            next-class="next-item"
-                            class="mb-0 align-items-center ml-5"
-                          >
+                          <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" first-number
+                            last-number prev-class="prev-item" next-class="next-item"
+                            class="mb-0 align-items-center ml-5">
                             <template #prev-text>
-                              <feather-icon
-                                icon="ChevronLeftIcon"
-                                size="18"
-                              />
+                              <feather-icon icon="ChevronLeftIcon" size="18" />
                             </template>
 
                             <template #next-text>
-                              <feather-icon
-                                icon="ChevronRightIcon"
-                                size="18"
-                              />
+                              <feather-icon icon="ChevronRightIcon" size="18" />
                             </template>
 
                           </b-pagination>
@@ -313,12 +170,7 @@
                   </div>
                   <div class="mb-5 d-flex align-items-center">
                     <h3>Não encontrou o autor que queria?</h3>
-                    <b-button
-                      :to="{ name: 'autor-cadastro'}"
-                      class=" ml-2"
-                      variant="primary"
-                      size="md"
-                    >
+                    <b-button :to="{ name: 'autor-cadastro'}" class=" ml-2" variant="primary" size="md">
                       Cadastre!</b-button>
                   </div>
                 </b-tab>
@@ -335,34 +187,15 @@
                     para o livro</span>
                   <div class="d-flex justify-content-start mt-2 flex-wrap">
 
-                    <b-col
-                      lg="12"
-                      class="mb-3"
-                    >
+                    <b-col lg="12" class="mb-3">
                       <!-- button on right -->
-                      <b-input-group
-                        label=""
-                        label-cols-sm="2"
-                        label-align-sm="right"
-                        label-size="lg"
-                        label-for="filterInput"
-                        class="mb-0"
-                      >
-                        <b-form-input
-                          v-model="categoriaNome"
-                          size="lg"
-                          type="search"
-                          placeholder="Pesquise a categoria..."
-                        />
+                      <b-input-group label="" label-cols-sm="2" label-align-sm="right" label-size="lg"
+                        label-for="filterInput" class="mb-0">
+                        <b-form-input v-model="categoriaNome" size="lg" type="search"
+                          placeholder="Pesquise a categoria..." />
                         <b-input-group-append>
-                          <b-button
-                            variant="outline-primary"
-                            @click="pesquisaCatPorNomeClick"
-                          >
-                            <feather-icon
-                              size="16"
-                              icon="SearchIcon"
-                            />
+                          <b-button variant="outline-primary" @click="pesquisaCatPorNomeClick">
+                            <feather-icon size="16" icon="SearchIcon" />
                             Pesquisar
                           </b-button>
                         </b-input-group-append>
@@ -372,35 +205,15 @@
                   </div>
 
                   <div class="d-flex justify-content-between">
-                    <b-col
-                      lg="12"
-                      class="mb-1"
-                    >
-                      <b-table
-                        striped
-                        hover
-                        responsive
-                        show-empty
-                        class="position-relative"
-                        :per-page="perPage"
-                        :current-page="currentPage"
-                        :items="categorias"
-                        :fields="fieldsCategorias"
-                        :sort-by.sync="sortBy"
-                        :sort-desc.sync="sortDesc"
-                        :sort-direction="sortDirection"
-                      >
+                    <b-col lg="12" class="mb-1">
+                      <b-table striped hover responsive show-empty class="position-relative" :per-page="perPage"
+                        :current-page="currentPage" :items="categorias" :fields="fieldsCategorias"
+                        :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :sort-direction="sortDirection">
 
                         <template #empty>
                           <div class="d-flex justify-content-center">
-                            <b-spinner
-                              variant="primary"
-                              label="Carregando..."
-                            />
-                            <h3
-                              class="text-center ml-1"
-                              style="color:7367f0;"
-                            >Categoria não
+                            <b-spinner variant="primary" label="Carregando..." />
+                            <h3 class="text-center ml-1" style="color:7367f0;">Categoria não
                               localizada</h3>
                           </div>
                         </template>
@@ -411,46 +224,22 @@
 
                         <!-- page length -->
 
-                        <b-form-group
-                          label="Por Pág"
-                          label-cols="6"
-                          label-align="left"
-                          label-size="sm"
+                        <b-form-group label="Por Pág" label-cols="6" label-align="left" label-size="sm"
                           label-for="sortBySelect"
-                          class="text-nowrap mb-md-3 mr-5 align-items-center justify-content-start"
-                        >
-                          <b-form-select
-                            id="perPageSelect"
-                            v-model="perPage"
-                            size="sm"
-                            inline
-                            :options="pageOptions"
-                          />
+                          class="text-nowrap mb-md-3 mr-5 align-items-center justify-content-start">
+                          <b-form-select id="perPageSelect" v-model="perPage" size="sm" inline :options="pageOptions" />
                         </b-form-group>
 
                         <!-- pagination -->
                         <div>
-                          <b-pagination
-                            v-model="currentPage"
-                            :total-rows="totalRows"
-                            :per-page="perPage"
-                            first-number
-                            last-number
-                            prev-class="prev-item"
-                            next-class="next-item"
-                            class="mb-0 align-items-center ml-5"
-                          >
+                          <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" first-number
+                            last-number prev-class="prev-item" next-class="next-item"
+                            class="mb-0 align-items-center ml-5">
                             <template #prev-text>
-                              <feather-icon
-                                icon="ChevronLeftIcon"
-                                size="18"
-                              />
+                              <feather-icon icon="ChevronLeftIcon" size="18" />
                             </template>
                             <template #next-text>
-                              <feather-icon
-                                icon="ChevronRightIcon"
-                                size="18"
-                              />
+                              <feather-icon icon="ChevronRightIcon" size="18" />
                             </template>
                           </b-pagination>
                         </div>
@@ -460,12 +249,7 @@
 
                   <div class="mb-5 d-flex align-items-center">
                     <h3>Não encontrou a categoria que queria?</h3>
-                    <b-button
-                      :to="{ name: 'categoria-cadastro'}"
-                      class=" ml-2"
-                      variant="primary"
-                      size="md"
-                    >
+                    <b-button :to="{ name: 'categoria-cadastro'}" class=" ml-2" variant="primary" size="md">
                       Cadastre!</b-button>
                   </div>
                 </b-tab>
@@ -474,37 +258,17 @@
             </b-col>
 
             <!-- submit and reset -->
-            <b-col
-              cols="12"
-              class="d-flex align-items-center justify-content-center mt-2"
-            >
-              <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                size="lg"
-                type="submit"
-                variant="primary"
-                class="mr-1"
-                @click="addLivro()"
-              >
+            <b-col cols="12" class="d-flex align-items-center justify-content-center mt-2">
+              <b-button v-ripple.400="'rgba(186, 191, 199, 0.15)'" size="lg" type="submit" variant="primary"
+                class="mr-1" @click="addLivro()">
                 Enviar
-                <feather-icon
-                  size="18"
-                  icon="SendIcon"
-                />
+                <feather-icon size="18" icon="SendIcon" />
 
               </b-button>
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                size="lg"
-                type="reset"
-                variant="outline-danger"
-                @click="resetFormLivro()"
-              >
+              <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" size="lg" type="reset" variant="outline-danger"
+                @click="resetFormLivro()">
                 Cancelar
-                <feather-icon
-                  size="18"
-                  icon="XIcon"
-                />
+                <feather-icon size="18" icon="XIcon" />
 
               </b-button>
             </b-col>
@@ -700,7 +464,10 @@ export default {
     this.$http.get('bookshelf/authors/')
       .then(response => this.autores = response.data.data)
     this.$http.get('bookshelf/pub-companies/')
-      .then(response => this.editoras = response.data.data)
+      .then(response => 
+        console.log(response.data.data)
+      // this.editoras = response.data.data
+      )
   },
 
   methods: {
@@ -815,3 +582,4 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
 </style>
+
